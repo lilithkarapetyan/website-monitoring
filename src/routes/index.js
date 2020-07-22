@@ -4,11 +4,11 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 // pages
 import Home from '../pages/Home';
 
-const Routes = () => {
-  return <Switch>
+const Routes = () => (
+  <Switch>
     <Route path="/" component={Home} />
     <Redirect from="*" to="/" />
   </Switch>
-};
+);
 
 export default Routes;

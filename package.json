@@ -1,7 +1,8 @@
 {
-  "name": "monitoring",
-  "version": "0.1.0",
-  "private": true,
+  "name": "website-monitoring",
+  "version": "1.0.0",
+  "description": "A performance monitoring library that can be included in any web page to collect information about the page rendering performance, network requests, and responses. It will provide an overview of that page with general statistics about things like what is slow and what is fast.",
+  "main": "index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -13,14 +14,38 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.3.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "pre-commit": "^1.2.2"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "pre-commit": [
+    "precommit"
+  ],
   "scripts": {
+    "lint": "node ./node_modules/eslint/bin/eslint.js ./src --fix",
+    "precommit": "node ./node_modules/eslint/bin/eslint.js ./src",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lilithkarapetyan/website-monitoring.git"
+  },
+  "author": "team-web-growth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lilithkarapetyan/website-monitoring/issues"
   },
   "browserslist": {
     "production": [
@@ -33,5 +58,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://github.com/lilithkarapetyan/website-monitoring#readme"
 }

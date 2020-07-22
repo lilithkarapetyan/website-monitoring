@@ -1,10 +1,9 @@
 import React from 'react';
 
-const Header = () => {
-  return <header>
+const Header = () => (
+  <header>
     header
   </header>
-};
-
+);
 
 export default Header;
