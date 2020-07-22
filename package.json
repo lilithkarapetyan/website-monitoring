@@ -1,0 +1,32 @@
+{
+  "name": "website-monitoring",
+  "version": "1.0.0",
+  "description": "A performance monitoring library that can be included in any web page to collect information about the page rendering performance, network requests, and responses. It will provide an overview of that page with general statistics about things like what is slow and what is fast.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "precommit"
+  ],
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "node ./node_modules/eslint/bin/eslint.js ./src --fix",
+    "precommit": "node ./node_modules/eslint/bin/eslint.js ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lilithkarapetyan/website-monitoring.git"
+  },
+  "author": "team-web-growth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lilithkarapetyan/website-monitoring/issues"
+  },
+  "homepage": "https://github.com/lilithkarapetyan/website-monitoring#readme"
+}
