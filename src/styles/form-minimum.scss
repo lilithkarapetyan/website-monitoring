@@ -1,0 +1,25 @@
+@import './colors.scss';
+
+@mixin flex-column-center() {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+};
+
+.formWrapper {
+    border-radius: 10px;
+    border: 1px solid $form-border-color;
+    text-align: center;
+}
+
+.form {
+    padding: 10px;
+    @include flex-column-center();
+}
+
+// UGLY: I used !important
+.input {
+    width: 60%;
+    margin: 10px 0 !important; 
+}
