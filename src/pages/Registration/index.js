@@ -9,24 +9,31 @@ import styles from './Registration.module.scss';
 const cx = classnames.bind(styles);
 
 const Registration = () => {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [fields, setFields] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+  });
 
   const { push } = useHistory();
 
+  const handleFieldChange = useCallback((e) => {
+    const { name, value } = e.target;
+
+    setFields((prevstate) => ({
+      ...prevstate,
+      [name]: value,
+    }));
+  }, [setFields]);
+
   const handleRegistrationSubmit = useCallback(() => {
-    const user = JSON.stringify({
-      name,
-      surname,
-      email,
-      password,
-    });
+    const user = JSON.stringify(fields);
+
     sessionStorage.setItem('user', user);
     sessionStorage.setItem('isLogged', true);
     push('/');
-  }, [push, name, surname, email, password]);
+  }, [push, fields]);
 
   return (
     <Grid container>
@@ -37,31 +44,35 @@ const Registration = () => {
           <TextField
             className={cx('input')}
             label="Name"
-            value={name}
+            name="name"
+            value={fields.name}
             variant="outlined"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => handleFieldChange(e)}
           />
           <TextField
             className={cx('input')}
             label="Surname"
-            value={surname}
+            value={fields.surname}
+            name="surname"
             variant="outlined"
-            onChange={(e) => setSurname(e.target.value)}
+            onChange={(e) => handleFieldChange(e)}
           />
           <TextField
             className={cx('input')}
             label="Email"
-            value={email}
+            value={fields.email}
+            name="email"
             variant="outlined"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => handleFieldChange(e)}
           />
           <TextField
             className={cx('input')}
             label="Password"
             type="password"
-            value={password}
+            name="password"
+            value={fields.password}
             variant="outlined"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => handleFieldChange(e)}
           />
           <Button type="Submit" variant="contained" color="primary">
             Submit

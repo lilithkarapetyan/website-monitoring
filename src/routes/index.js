@@ -10,9 +10,9 @@ import Login from '../pages/Login';
 
 const Routes = () => (
   <Switch>
-    <PrivateRoute exact path="/" component={() => <Home />} />
-    <Route exact path="/registration" component={Registration} />
-    <Route exact path="/login" component={Login} />
+    <PrivateRoute exact path="/" component={Home} />
+    <Route path="/registration" component={Registration} />
+    <Route path="/login" component={Login} />
     {/* <Redirect from="*" to="/registration" /> */}
   </Switch>
 );

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Grid, TextField, Button } from '@material-ui/core';
 
 import classnames from 'classnames/bind';
@@ -9,10 +9,21 @@ import styles from './Login.module.scss';
 const cx = classnames.bind(styles);
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [fields, setFields] = useState({
+    email: '',
+    password: '',
+  });
 
   const { push } = useHistory();
+
+  const handleFieldChange = useCallback((e) => {
+    const { name, value } = e.target;
+
+    setFields((prevstate) => ({
+      ...prevstate,
+      [name]: value,
+    }));
+  }, [setFields]);
 
   const handleLoginSubmit = useCallback(() => {
     sessionStorage.setItem('isLogged', true);
@@ -28,21 +39,28 @@ const Login = () => {
           <TextField
             className={cx('input')}
             label="Email"
-            value={email}
+            name="email"
+            value={fields.email}
             variant="outlined"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => handleFieldChange(e)}
           />
           <TextField
             className={cx('input')}
             label="Password"
             type="password"
-            value={password}
+            name="password"
+            value={fields.password}
             variant="outlined"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => handleFieldChange(e)}
           />
           <Button type="Submit" variant="contained" color="primary">
             Submit
           </Button>
+          {/* TODO: give styles to this span */}
+          <span>
+            Not a member?
+            <Link to='/registration'>Register</Link>
+          </span>
         </form>
       </Grid>
       <Grid item xs={false} sm={2} md={3} lg={4} />
