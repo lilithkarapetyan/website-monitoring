@@ -1,0 +1,17 @@
+@import '../../styles/flex-stuff.scss';
+$footer-height: 300px;
+
+.footer {
+    height: $footer-height;
+    background: rgb(72,88,195);
+    background: linear-gradient(rgb(48, 69, 207) 0%, rgb(14, 38, 122) 100%);
+    @include flex-column-center-both();
+}
+
+.text {
+    @include flex-center-align();
+}
+
+.icons {
+    margin: 0 4px;
+}

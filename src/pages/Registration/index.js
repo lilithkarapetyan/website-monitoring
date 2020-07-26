@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Grid, TextField, Button } from '@material-ui/core';
 
+// styles
 import classnames from 'classnames/bind';
 
 import styles from './Registration.module.scss';
