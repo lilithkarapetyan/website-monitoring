@@ -1,11 +1,5 @@
 @import './colors.scss';
-
-@mixin flex-column-center() {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-};
+@import './flex-stuff.scss';
 
 .formWrapper {
     border-radius: 10px;
@@ -15,7 +9,7 @@
 
 .form {
     padding: 10px;
-    @include flex-column-center();
+    @include flex-column-center-both();
 }
 
 // UGLY: I used !important
