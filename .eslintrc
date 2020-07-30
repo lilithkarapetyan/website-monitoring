@@ -1,5 +1,7 @@
 {
     "extends": [
+        "airbnb", 
+        "airbnb/hooks",
         "airbnb-base"
     ],
     "env": {
@@ -7,6 +9,8 @@
         "browser": true
     },
     "rules": {
-        "no-console": "off"
+        "no-console": "off",
+        "import/no-unresolved": 0,
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
     }
 }

@@ -2,22 +2,44 @@
   "name": "website-monitoring",
   "version": "1.0.0",
   "description": "A performance monitoring library that can be included in any web page to collect information about the page rendering performance, network requests, and responses. It will provide an overview of that page with general statistics about things like what is slow and what is fast.",
-  "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
+    "classnames": "^2.2.6",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-chartjs-2": "^2.9.0",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1"
+  },
   "devDependencies": {
-    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
     "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.3.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
     "pre-commit": "^1.2.2"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "pre-commit": [
     "precommit"
   ],
   "scripts": {
-    "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "node ./node_modules/eslint/bin/eslint.js ./src --fix",
-    "precommit": "node ./node_modules/eslint/bin/eslint.js ./src"
+    "precommit": "node ./node_modules/eslint/bin/eslint.js ./src",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "repository": {
     "type": "git",
@@ -28,5 +50,16 @@
   "bugs": {
     "url": "https://github.com/lilithkarapetyan/website-monitoring/issues"
   },
-  "homepage": "https://github.com/lilithkarapetyan/website-monitoring#readme"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
