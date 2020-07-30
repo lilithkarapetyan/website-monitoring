@@ -5,6 +5,7 @@
     border-radius: 10px;
     border: 1px solid $form-border-color;
     text-align: center;
+    background-color: #424242;
 }
 
 .form {
@@ -15,5 +16,5 @@
 // UGLY: I used !important
 .input {
     width: 60%;
-    margin: 10px 0 !important; 
+    margin: 10px 0 !important;
 }
