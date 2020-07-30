@@ -1,16 +1,16 @@
 import React from 'react';
 import { Line, Bar } from 'react-chartjs-2';
 import chartConfig from '../../helpers/chartConfig';
-// import { getDomInfo } from '../../fetch';
 import { useData } from '../../hooks';
 
 const Dashboard = () => {
   const data = chartConfig(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'ehllo'],
     [65, 59, 80, 81, 56, 55, 40],
     'Requests');
-  useData().then(console.log);
+  const { resState, domState } = useData();
 
-  // console.log(dom, res);
+  // console.log('RES => ', resState);
+  // console.log('DOM => ', domState);
   return (
     <div>
       <Line data={data} />
