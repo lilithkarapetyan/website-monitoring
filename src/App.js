@@ -29,8 +29,8 @@ function App() {
   );
 
   useEffect(() => {
-    if (!localStorage.getItem('isLogged')) {
-      localStorage.setItem('isLogged', 'false');
+    if (!sessionStorage.getItem('isLogged')) {
+      sessionStorage.setItem('isLogged', 'false');
     }
   }, []);
 
