@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <Container maxWidth="sm">
-      <Card className={ classes.root }>
+      <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
             component="img"

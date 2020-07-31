@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames/bind';
@@ -155,5 +156,3 @@ export default function Header() {
     </AppBar>
   );
 }
-
-
