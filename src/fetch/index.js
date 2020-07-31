@@ -10,3 +10,11 @@ export {
 export {
   default as getResourcesInfo,
 } from './analytics/resourcesInfo';
+
+export {
+  default as sendUserRegInfo,
+} from './auth/regUser';
+
+export {
+  default as sendUserLogininfo,
+} from './auth/loginUser';

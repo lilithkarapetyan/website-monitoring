@@ -8,6 +8,9 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames/bind';
+import { v4 as uuidv4 } from 'uuid';
+
+import { sendUserRegInfo } from '../../fetch';
 
 // styles
 import styles from './Registration.module.scss';
@@ -49,13 +52,17 @@ const Registration = () => {
     }));
   }, [setFields]);
 
-  const handleRegistrationSubmit = useCallback(() => {
-    const user = JSON.stringify(fields);
+  const handleRegistrationSubmit = useCallback((e) => {
+    e.preventDefault();
+    
+    sendUserRegInfo({
+      ...fields,
+      password: new Buffer(fields.password).toString('base64'),
+      apps: [uuidv4(), uuidv4()],
+    });
 
-    localStorage.setItem('user', user);
-    localStorage.setItem('isLogged', 'true');
-    push('/');
-  }, [push, fields]);
+    push('/login');
+  }, [fields, push]);
 
   return (
     <Grid container>
@@ -68,7 +75,7 @@ const Registration = () => {
           className={cx('form', classes.root)}
           noValidate
           autoComplete="off"
-          onSubmit={handleRegistrationSubmit}
+          onSubmit={e => handleRegistrationSubmit(e)}
         >
           <TextField
             id="outlined-basic"
@@ -85,6 +92,23 @@ const Registration = () => {
             name="surname"
             value={fields.surname}
             onChange={handleFieldChange}
+          />
+          <TextField
+            id="outlined-basic"
+            label="email"
+            variant="outlined"
+            name="email"
+            value={fields.email}
+            onChange={handleFieldChange}
+          />
+          <TextField
+            id="outlined-basic"
+            label="password"
+            variant="outlined"
+            name="password"
+            value={fields.password}
+            onChange={handleFieldChange}
+            type="password"
           />
           <Button type="Submit" variant="contained" color="primary">
             Submit

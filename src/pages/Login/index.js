@@ -2,6 +2,8 @@ import React, { useState, useCallback } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { Grid, TextField, Button } from '@material-ui/core';
 
+import { sendUserLogininfo } from '../../fetch';
+
 // styles
 import classnames from 'classnames/bind';
 
@@ -26,17 +28,27 @@ const Login = () => {
     }));
   }, [setFields]);
 
-  const handleLoginSubmit = useCallback(() => {
-    sessionStorage.setItem('isLogged', true);
-    push('/');
-  }, [push]);
+  const handleLoginSubmit = useCallback((e) => {
+    e.preventDefault();
+    sendUserLogininfo({
+      ...fields,
+      password: new Buffer(fields.password).toString('base64'),
+    })
+    .then(user => {
+      console.log(user);
+      sessionStorage.setItem('user', JSON.stringify(user))
+      sessionStorage.setItem('isLogged', true);
+      push('/');
+    });
+    
+  }, [fields, push]);
 
   return (
     <Grid container>
       <Grid item xs={false} sm={2} md={3} lg={4} />
       <Grid item xs={12} sm={8} md={6} lg={4} className={cx('formWrapper')}>
         <h2>Login</h2>
-        <form className={cx('form')} onSubmit={handleLoginSubmit}>
+        <form className={cx('form')} onSubmit={e => handleLoginSubmit(e)}>
           <TextField
             className={cx('input')}
             label="Email"

@@ -11,7 +11,7 @@ import Dashboard from '../pages/Dashboard';
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/" component={Home} />
+    <PrivateRoute exact path="/" component={Home} />
     <PrivateRoute path="/dashboard" component={Dashboard} />
     <Route path="/registration" component={Registration} />
     <Route path="/login" component={Login} />
