@@ -1,5 +1,4 @@
-/* eslint-disable no-shadow */
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,6 +59,9 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  // eslint-disable-next-line
+  const isLoggedIn = useMemo(() => sessionStorage.getItem('isLogged'), [sessionStorage.getItem('isLogged')]);
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -69,6 +71,7 @@ export default function Header() {
   };
   const { push } = useHistory();
 
+  // eslint-disable-next-line
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -78,6 +81,11 @@ export default function Header() {
   };
 
   const handleNavigate = useCallback((to) => {
+    if (to === '/login') {
+      console.log('pressed');
+      sessionStorage.setItem('isLogged', false);
+      sessionStorage.removeItem('user');
+    }
     push(to);
   }, [push]);
 
@@ -109,19 +117,19 @@ export default function Header() {
     <AppBar position="static">
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          {['left'].map((anchor) => (
+          {isLoggedIn === 'true' ? ['left'].map((anchor) => (
             <React.Fragment key={anchor}>
               <MenuIcon onClick={toggleDrawer(anchor, true)} />
               <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
                 {list(anchor)}
               </Drawer>
             </React.Fragment>
-          ))}
+          )) : null}
         </IconButton>
         <Typography variant="h6" className={classes.title}>
           Web Monitoring
         </Typography>
-        {'auth' && (
+        {isLoggedIn === 'true' ? (
           <div>
             <IconButton
               aria-label="account of current user"
@@ -151,7 +159,7 @@ export default function Header() {
               <MenuItem onClick={handleClose}>My account</MenuItem>
             </Menu>
           </div>
-        )}
+        ) : null}
       </Toolbar>
     </AppBar>
   );
