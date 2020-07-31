@@ -54,10 +54,10 @@ const Registration = () => {
 
   const handleRegistrationSubmit = useCallback((e) => {
     e.preventDefault();
-    
+
     sendUserRegInfo({
       ...fields,
-      password: new Buffer(fields.password).toString('base64'),
+      password: Buffer.from(fields.password).toString('base64'),
       apps: [uuidv4(), uuidv4()],
     });
 
@@ -75,7 +75,7 @@ const Registration = () => {
           className={cx('form', classes.root)}
           noValidate
           autoComplete="off"
-          onSubmit={e => handleRegistrationSubmit(e)}
+          onSubmit={(e) => handleRegistrationSubmit(e)}
         >
           <TextField
             id="outlined-basic"

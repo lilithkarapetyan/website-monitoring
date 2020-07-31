@@ -59,6 +59,7 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  // eslint-disable-next-line
   const isLoggedIn = useMemo(() => sessionStorage.getItem('isLogged'), [sessionStorage.getItem('isLogged')]);
 
   const handleMenu = (event) => {
@@ -70,6 +71,7 @@ export default function Header() {
   };
   const { push } = useHistory();
 
+  // eslint-disable-next-line
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -79,13 +81,13 @@ export default function Header() {
   };
 
   const handleNavigate = useCallback((to) => {
-    if (to === "/login") {
+    if (to === '/login') {
       console.log('pressed');
       sessionStorage.setItem('isLogged', false);
       sessionStorage.removeItem('user');
     }
     push(to);
-  }, [state, push]);
+  }, [push]);
 
   const handleOpenAnalytics = useCallback(() => {
     setAnchorEl(null);
@@ -115,7 +117,7 @@ export default function Header() {
     <AppBar position="static">
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          {isLoggedIn === "true" ? ['left'].map((anchor) => (
+          {isLoggedIn === 'true' ? ['left'].map((anchor) => (
             <React.Fragment key={anchor}>
               <MenuIcon onClick={toggleDrawer(anchor, true)} />
               <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
@@ -127,7 +129,7 @@ export default function Header() {
         <Typography variant="h6" className={classes.title}>
           Web Monitoring
         </Typography>
-        {isLoggedIn === "true" ? (
+        {isLoggedIn === 'true' ? (
           <div>
             <IconButton
               aria-label="account of current user"
@@ -162,5 +164,3 @@ export default function Header() {
     </AppBar>
   );
 }
-
-
