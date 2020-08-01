@@ -30,15 +30,29 @@ const Login = () => {
 
   const handleLoginSubmit = useCallback((e) => {
     e.preventDefault();
-    sendUserLogininfo({
-      ...fields,
-      password: Buffer.from(fields.password).toString('base64'),
-    })
-      .then((user) => {
-        console.log(user);
-        sessionStorage.setItem('user', JSON.stringify(user));
-        sessionStorage.setItem('isLogged', true);
-        push('/');
+    const encryptedPassword = Buffer.from(fields.password).toString('base64');
+
+    sendUserLogininfo()
+      .then((users) => {
+        const user = Object.values(users).filter((u) => {
+          if ((!!u.email && u.email === fields.email)
+              && (!!u.password && u.password === encryptedPassword)) {
+            return true;
+          }
+
+          return false;
+        });
+
+        if (user[0]) {
+          sessionStorage.setItem('user', JSON.stringify(user[0]));
+          sessionStorage.setItem('isLogged', true);
+          return push('/');
+        }
+
+        throw new Error('User is not found');
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, [fields, push]);
 

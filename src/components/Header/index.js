@@ -82,7 +82,6 @@ export default function Header() {
 
   const handleNavigate = useCallback((to) => {
     if (to === '/login') {
-      console.log('pressed');
       sessionStorage.setItem('isLogged', false);
       sessionStorage.removeItem('user');
     }

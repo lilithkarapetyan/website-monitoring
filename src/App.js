@@ -38,8 +38,8 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <div className="App">
-          <Header />
           <div className={cx('content')}>
+            <Header />
             <Routes />
           </div>
           <Footer />
