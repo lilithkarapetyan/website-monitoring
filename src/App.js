@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import classnames from 'classnames/bind';
+import LoginCtx from './contexts/LoginContext';
 
 // styles
 import styles from './App.module.scss';
@@ -28,6 +29,8 @@ function App() {
     [prefersDarkMode],
   );
 
+  const [login, setLogin] = useState(false);
+
   useEffect(() => {
     if (!sessionStorage.getItem('isLogged')) {
       sessionStorage.setItem('isLogged', 'false');
@@ -39,8 +42,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <div className="App">
           <div className={cx('content')}>
-            <Header />
-            <Routes />
+            <LoginCtx.Provider value={{ login, setLogin }}>
+              <Header />
+              <Routes />
+            </LoginCtx.Provider>
           </div>
           <Footer />
         </div>

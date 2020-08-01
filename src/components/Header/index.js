@@ -1,4 +1,6 @@
-import React, { useCallback, useState, useMemo } from 'react';
+import React, {
+  useCallback, useState, useContext,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +17,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import styles from './Header.module.css';
+import LoginCtx from '../../contexts/LoginContext';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -53,6 +56,7 @@ const navList = [
 
 export default function Header() {
   const classes = useStyles();
+  const { login, setLogin } = useContext(LoginCtx);
   const [state, setState] = useState({
     left: false,
   });
@@ -60,8 +64,8 @@ export default function Header() {
   const open = Boolean(anchorEl);
 
   // eslint-disable-next-line
-  const isLoggedIn = useMemo(() => sessionStorage.getItem('isLogged'), [sessionStorage.getItem('isLogged')]);
-
+  // const isLoggedIn = useMemo(() => sessionStorage.getItem('isLogged'), [sessionStorage.getItem('isLogged')]);
+  console.log(login);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -84,9 +88,10 @@ export default function Header() {
     if (to === '/login') {
       sessionStorage.setItem('isLogged', false);
       sessionStorage.removeItem('user');
+      setLogin(false);
     }
     push(to);
-  }, [push]);
+  }, [push, setLogin]);
 
   const handleOpenAnalytics = useCallback(() => {
     setAnchorEl(null);
@@ -116,7 +121,7 @@ export default function Header() {
     <AppBar position="static">
       <Toolbar>
         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          {isLoggedIn === 'true' ? ['left'].map((anchor) => (
+          {`${login}` === 'true' ? ['left'].map((anchor) => (
             <React.Fragment key={anchor}>
               <MenuIcon onClick={toggleDrawer(anchor, true)} />
               <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
@@ -128,7 +133,7 @@ export default function Header() {
         <Typography variant="h6" className={classes.title}>
           Web Monitoring
         </Typography>
-        {isLoggedIn === 'true' ? (
+        {`${login}` === 'true' ? (
           <div>
             <IconButton
               aria-label="account of current user"

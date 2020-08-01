@@ -1,9 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { Grid, TextField, Button } from '@material-ui/core';
+import {
+  Grid, TextField, Button, Typography,
+} from '@material-ui/core';
 
 import classnames from 'classnames/bind';
 import { sendUserLogininfo } from '../../fetch';
+
+import LoginCtx from '../../contexts/LoginContext';
 
 // styles
 
@@ -12,6 +16,7 @@ import styles from './Login.module.scss';
 const cx = classnames.bind(styles);
 
 const Login = () => {
+  const { login, setLogin } = useContext(LoginCtx);
   const [fields, setFields] = useState({
     email: '',
     password: '',
@@ -46,6 +51,7 @@ const Login = () => {
         if (user[0]) {
           sessionStorage.setItem('user', JSON.stringify(user[0]));
           sessionStorage.setItem('isLogged', true);
+          setLogin(true);
           return push('/');
         }
 
@@ -54,13 +60,14 @@ const Login = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [fields, push]);
+  }, [fields, push, setLogin]);
+  console.log('login', login, setLogin);
 
   return (
     <Grid container>
       <Grid item xs={false} sm={2} md={3} lg={4} />
       <Grid item xs={12} sm={8} md={6} lg={4} className={cx('formWrapper')}>
-        <h2>Login</h2>
+        <Typography element='h2'>Login</Typography>
         <form className={cx('form')} onSubmit={(e) => handleLoginSubmit(e)}>
           <TextField
             className={cx('input')}
