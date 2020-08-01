@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames/bind';
 import { v4 as uuidv4 } from 'uuid';
 
+import { isEmail, passwordValidation } from '../../helpers';
+
 import { sendUserRegInfo } from '../../fetch';
 
 // styles
@@ -35,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
 const Registration = () => {
   const classes = useStyles();
   const [fields, setFields] = useState({
-    name: '',
-    surname: '',
-    email: '',
-    password: '',
+    name: undefined,
+    surname: undefined,
+    email: undefined,
+    password: undefined,
   });
 
   const { push } = useHistory();
@@ -78,18 +80,24 @@ const Registration = () => {
           onSubmit={(e) => handleRegistrationSubmit(e)}
         >
           <TextField
+            required
             id="outlined-basic"
             label="Name"
             variant="outlined"
             name="name"
+            error={typeof fields.name === 'string'}
+            helperText={typeof fields.name === 'string' && 'Name should be full'}
             value={fields.name}
             onChange={handleFieldChange}
           />
           <TextField
+            required
             id="outlined-basic"
             label="Surname"
             variant="outlined"
             name="surname"
+            error={typeof fields.surname === 'string'}
+            helperText={typeof fields.surname === 'string' && 'Surname should be full'}
             value={fields.surname}
             onChange={handleFieldChange}
           />
@@ -98,6 +106,8 @@ const Registration = () => {
             label="email"
             variant="outlined"
             name="email"
+            error={!isEmail(fields.email)}
+            helperText={!isEmail(fields.email) && 'Email is not vaild'}
             value={fields.email}
             onChange={handleFieldChange}
           />
@@ -106,6 +116,8 @@ const Registration = () => {
             label="password"
             variant="outlined"
             name="password"
+            error={passwordValidation(fields.password)}
+            helperText={passwordValidation(fields.password) && 'Password is not vaild'}
             value={fields.password}
             onChange={handleFieldChange}
             type="password"

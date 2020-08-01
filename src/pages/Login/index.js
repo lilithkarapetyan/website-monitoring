@@ -6,20 +6,21 @@ import {
 
 import classnames from 'classnames/bind';
 import { sendUserLogininfo } from '../../fetch';
+import { isEmail, passwordValidation } from '../../helpers';
 
 import LoginCtx from '../../contexts/LoginContext';
 
 // styles
-
 import styles from './Login.module.scss';
 
 const cx = classnames.bind(styles);
 
 const Login = () => {
+  // eslint-disable-next-line
   const { login, setLogin } = useContext(LoginCtx);
   const [fields, setFields] = useState({
-    email: '',
-    password: '',
+    email: undefined,
+    password: undefined,
   });
 
   const { push } = useHistory();
@@ -61,7 +62,6 @@ const Login = () => {
         console.log(err);
       });
   }, [fields, push, setLogin]);
-  console.log('login', login, setLogin);
 
   return (
     <Grid container>
@@ -73,6 +73,8 @@ const Login = () => {
             className={cx('input')}
             label="Email"
             name="email"
+            error={!isEmail(fields.email)}
+            helperText={!isEmail(fields.email) && 'Email is not vaild'}
             value={fields.email}
             variant="outlined"
             onChange={(e) => handleFieldChange(e)}
@@ -82,6 +84,8 @@ const Login = () => {
             label="Password"
             type="password"
             name="password"
+            error={passwordValidation(fields.password)}
+            helperText={passwordValidation(fields.password) && 'Password is not vaild'}
             value={fields.password}
             variant="outlined"
             onChange={(e) => handleFieldChange(e)}
@@ -89,7 +93,6 @@ const Login = () => {
           <Button type="Submit" variant="contained" color="primary">
             Submit
           </Button>
-          {/* TODO: give styles to this span */}
           <span>
             Not a member?
             <Link to='/registration'>Register</Link>

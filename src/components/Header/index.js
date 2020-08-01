@@ -65,7 +65,6 @@ export default function Header() {
 
   // eslint-disable-next-line
   // const isLoggedIn = useMemo(() => sessionStorage.getItem('isLogged'), [sessionStorage.getItem('isLogged')]);
-  console.log(login);
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
