@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import {
   Grid,
   TextField,
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      width: '25ch',
+      // width: '25ch',
     },
   },
   container: {
@@ -70,9 +70,7 @@ const Registration = () => {
     <Grid container>
       <Grid item xs={false} sm={2} md={3} lg={4} />
       <Grid item xs={12} sm={8} md={6} lg={4} className={cx('formWrapper', classes.container)}>
-        <Typography variant="h4" component="h2" className={classes.title}>
-          Registration
-        </Typography>
+        <Typography><h2>Registration</h2></Typography>
         <form
           className={cx('form', classes.root)}
           noValidate
@@ -125,6 +123,13 @@ const Registration = () => {
           <Button type="Submit" variant="contained" color="primary">
             Submit
           </Button>
+          <Typography>
+            <span>
+              Already have an account?
+              {' '}
+              <Link to='/login'>Log in</Link>
+            </span>
+          </Typography>
         </form>
       </Grid>
       <Grid item xs={false} sm={2} md={3} lg={4} />

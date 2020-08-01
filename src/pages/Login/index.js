@@ -42,7 +42,7 @@ const Login = () => {
       .then((users) => {
         const user = Object.values(users).filter((u) => {
           if ((!!u.email && u.email === fields.email)
-              && (!!u.password && u.password === encryptedPassword)) {
+            && (!!u.password && u.password === encryptedPassword)) {
             return true;
           }
 
@@ -64,7 +64,7 @@ const Login = () => {
   }, [fields, push, setLogin]);
 
   return (
-    <Grid container>
+    <Grid container className={cx('container')}>
       <Grid item xs={false} sm={2} md={3} lg={4} />
       <Grid item xs={12} sm={8} md={6} lg={4} className={cx('formWrapper')}>
         <Typography element='h2'>Login</Typography>
@@ -90,13 +90,17 @@ const Login = () => {
             variant="outlined"
             onChange={(e) => handleFieldChange(e)}
           />
-          <Button type="Submit" variant="contained" color="primary">
-            Submit
+          <Button type="Submit" variant="contained" className={cx('submit')} color="primary">
+            Login
           </Button>
-          <span>
-            Not a member?
-            <Link to='/registration'>Register</Link>
-          </span>
+          {/* TODO: give styles to this span */}
+          <Typography>
+            <span>
+              Not a member?
+              {' '}
+              <Link to='/registration'>Register</Link>
+            </span>
+          </Typography>
         </form>
       </Grid>
       <Grid item xs={false} sm={2} md={3} lg={4} />
