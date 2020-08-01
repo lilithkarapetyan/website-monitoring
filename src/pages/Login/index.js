@@ -34,8 +34,14 @@ const Login = () => {
 
     sendUserLogininfo()
       .then((users) => {
-        // eslint-disable-next-line
-        const user = Object.values(users).filter((u) => u.email === fields.email && u.password === encryptedPassword);
+        const user = Object.values(users).filter((u) => {
+          if ((!!u.email && u.email === fields.email)
+              && (!!u.password && u.password === encryptedPassword)) {
+            return true;
+          }
+
+          return false;
+        });
 
         if (user[0]) {
           sessionStorage.setItem('user', JSON.stringify(user[0]));
