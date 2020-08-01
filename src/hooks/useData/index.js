@@ -43,7 +43,11 @@ const useData = () => {
           inCache: 0,
         },
       };
-
+      const imageFormatSuggestion = {
+        problem: 'Change the format of the images to .webp for better performance',
+        details: 'Detected another format in: \n',
+        count: 0,
+      };
       for (const item of res) {
         console.log(item);
         if (item.initiatorType === 'xmlhttprequest') {
@@ -62,20 +66,33 @@ const useData = () => {
           cached.imgs.total += 1;
           cached.imgs.inCache += item.isCached;
 
-          if (!imgs[item.name]) {
-            imgs[item.name] = {
-              count: 1,
-              duration: item.duration,
-              size: item.transferSize,
-            };
-          } else {
-            imgs[item.name].count += 1;
-            imgs[item.name].duration += item.duration;
-            imgs[item.name].size += item.transferSize;
+          if (item.needToChangeImgFormat) {
+            imageFormatSuggestion.details += `${item.name} \n\n`;
+            imageFormatSuggestion.count += 1;
+          }
+
+          if (!item.isCached) {
+            if (!imgs[item.name]) {
+              imgs[item.name] = {
+                count: 1,
+                duration: item.duration,
+                size: item.transferSize,
+              };
+            } else {
+              imgs[item.name].count += 1;
+              imgs[item.name].duration += item.duration;
+              imgs[item.name].size += item.transferSize;
+            }
           }
         }
       }
-
+      if (imageFormatSuggestion.count) {
+        newSuggestions.push(imageFormatSuggestion);
+      }
+      newWarnings.push({
+        problem: 'Do not use eval() or document.write()',
+        details: 'The functions can potentially be harmful',
+      });
       const reqData = [];
       const imgData = [];
       for (const r in reqs) {
