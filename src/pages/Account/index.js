@@ -1,27 +1,17 @@
-import React, { useState, useCallback } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
-  Grid,
-  TextField,
-  Button,
-  Typography,
+  Grid, TextField, Typography, Button,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames/bind';
-import { v4 as uuidv4 } from 'uuid';
 
 import {
-  isEmail,
-  isPassword,
-  emailValidation,
-  passwordValidation,
-  textFieldValidation,
+  isEmail, isPassword, textFieldValidation, passwordValidation, emailValidation,
 } from '../../helpers';
-
-import { sendUserRegInfo } from '../../fetch';
+import { getUserInfo, updateUserInfo } from '../../fetch';
 
 // styles
-import styles from './Registration.module.scss';
+import styles from './Account.module.scss';
 
 const cx = classnames.bind(styles);
 
@@ -29,28 +19,27 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      // width: '25ch',
+      width: '100%',
     },
   },
   container: {
     marginTop: '50px',
+    padding: '0 10px',
   },
   title: {
     color: '#fff',
   },
 }));
 
-const Registration = () => {
+const Account = () => {
   const classes = useStyles();
   const [fields, setFields] = useState({
-    name: undefined,
-    surname: undefined,
-    appName: undefined,
-    email: undefined,
-    password: undefined,
+    name: '',
+    surname: '',
+    appName: '',
+    email: '',
+    password: '',
   });
-
-  const { push } = useHistory();
 
   const handleFieldChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -61,20 +50,59 @@ const Registration = () => {
     }));
   }, [setFields]);
 
-  const handleRegistrationSubmit = useCallback((e) => {
+  const handleAccountChangeSubmit = useCallback((e) => {
     e.preventDefault();
+    const encryptedPassword = Buffer.from(fields.password).toString('base64');
 
-    sendUserRegInfo({
-      ...fields,
-      password: Buffer.from(fields.password).toString('base64'),
-      app: {
-        name: fields.appName,
-        id: uuidv4(),
-      },
+    getUserInfo()
+      .then((users) => {
+        const user = Object.entries(users).filter((u) => {
+          if ((!!u[1].email && u[1].email === fields.email)
+                    && (!!u[1].password && u[1].password === encryptedPassword)) {
+            return true;
+          }
+
+          return false;
+        });
+        // if (user[0]) {
+        //     sessionStorage.setItem('user', JSON.stringify(user[0]));
+        //     sessionStorage.setItem('isLogged', true);
+        //     setLogin(true);
+        //     return push('/');
+        // }
+
+        // throw new Error('User is not found');
+
+        return user;
+      })
+      .then((user) => {
+        const userId = user[0][0];
+
+        updateUserInfo(userId, {
+          ...fields,
+          password: Buffer.from(fields.password).toString('base64'),
+          app: {
+            ...fields.app,
+            name: fields.appName,
+          },
+        })
+          .then((u) => {
+            sessionStorage.setItem('user', JSON.stringify(u));
+          });
+      });
+  }, [fields]);
+
+  useEffect(() => {
+    const data = JSON.parse(sessionStorage.getItem('user'));
+
+    setFields({
+      name: data.name,
+      surname: data.surname,
+      appName: data.appName,
+      email: data.email,
+      password: Buffer.from(data.password, 'base64').toString('ascii'),
     });
-
-    push('/login');
-  }, [fields, push]);
+  }, []);
 
   const formValidation = useCallback(() => {
     const {
@@ -92,17 +120,16 @@ const Registration = () => {
 
   return (
     <Grid container>
-      <Grid item xs={false} sm={2} md={3} lg={4} />
-      <Grid item xs={12} sm={8} md={6} lg={4} className={cx('formWrapper', classes.container)}>
-        <Typography><h2>Registration</h2></Typography>
+      <Grid item xs={false} sm={2} />
+      <Grid className={cx(classes.container)} item xs={12} sm={8}>
+        <Typography><h2>Account</h2></Typography>
         <form
           className={cx('form', classes.root)}
           noValidate
           autoComplete="off"
-          onSubmit={(e) => handleRegistrationSubmit(e)}
+          onSubmit={(e) => handleAccountChangeSubmit(e)}
         >
           <TextField
-            required
             id="outlined-basic"
             label="Name"
             variant="outlined"
@@ -113,7 +140,6 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            required
             id="outlined-basic"
             label="Surname"
             variant="outlined"
@@ -124,13 +150,12 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            required
             id="outlined-basic"
-            label="App Name"
+            label="App name"
             variant="outlined"
             name="appName"
             error={textFieldValidation(fields.appName)}
-            helperText={textFieldValidation(fields.appName) && 'App Name should be full'}
+            helperText={textFieldValidation(fields.appname) && 'App Name should be full'}
             value={fields.appName}
             onChange={handleFieldChange}
           />
@@ -158,18 +183,11 @@ const Registration = () => {
           <Button disabled={formValidation()} type="Submit" variant="contained" color="primary">
             Submit
           </Button>
-          <Typography>
-            <span>
-              Already have an account?
-              {' '}
-              <Link to='/login'>Log in</Link>
-            </span>
-          </Typography>
         </form>
       </Grid>
-      <Grid item xs={false} sm={2} md={3} lg={4} />
+      <Grid item xs={false} sm={2} />
     </Grid>
   );
 };
 
-export default Registration;
+export default Account;

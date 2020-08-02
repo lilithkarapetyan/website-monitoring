@@ -7,11 +7,13 @@ import Home from '../pages/Home';
 import Registration from '../pages/Registration';
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
+import Account from '../pages/Account';
 
 const Routes = () => (
   <Switch>
     <PrivateRoute exact path="/" component={Home} />
     <PrivateRoute path="/dashboard" component={Dashboard} />
+    <PrivateRoute path="/account" component={Account} />
     <Route path="/registration" component={Registration} />
     <Route path="/login" component={Login} />
     <Redirect from="*" to="/" />
