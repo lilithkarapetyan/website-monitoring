@@ -103,7 +103,6 @@ const Registration = () => {
         >
           <TextField
             required
-            id="outlined-basic"
             label="Name"
             variant="outlined"
             name="name"
@@ -114,7 +113,6 @@ const Registration = () => {
           />
           <TextField
             required
-            id="outlined-basic"
             label="Surname"
             variant="outlined"
             name="surname"
@@ -125,7 +123,6 @@ const Registration = () => {
           />
           <TextField
             required
-            id="outlined-basic"
             label="App Name"
             variant="outlined"
             name="appName"
@@ -135,7 +132,6 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            id="outlined-basic"
             label="email"
             variant="outlined"
             name="email"
@@ -145,7 +141,6 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            id="outlined-basic"
             label="password"
             variant="outlined"
             name="password"
@@ -155,7 +150,12 @@ const Registration = () => {
             onChange={handleFieldChange}
             type="password"
           />
-          <Button disabled={formValidation()} type="Submit" variant="contained" color="primary">
+          <Button
+            disabled={formValidation()}
+            type="Submit"
+            variant="contained"
+            color="primary"
+          >
             Submit
           </Button>
           <Typography>
