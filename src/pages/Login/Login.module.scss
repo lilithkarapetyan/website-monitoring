@@ -1,4 +1,19 @@
 @import '../../styles/form-minimum.scss';
+@import '../../styles/flex-stuff.scss';
+
+.modal {
+  @include flex-column-center-both();
+}
+
+.modal-body {
+  position: absolute;
+  width: 400px;
+  padding: 40px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 5px 10px #ddddff;
+}
 
 .form {
   & input {

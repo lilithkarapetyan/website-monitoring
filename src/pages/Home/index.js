@@ -16,23 +16,30 @@ const useStyles = makeStyles({
   root: {
     marginTop: 100,
   },
+  code: {
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word',
+  },
 });
-
-const codePart = (
-  <pre>
-    {
-`
-const monitoring = new Monitoring('1233');
-      
-monitoring.use();
-`
-}
-  </pre>
-);
 
 export default function Home() {
   const [app] = useState(JSON.parse(sessionStorage.getItem('user')).app);
   const classes = useStyles();
+
+  const codePart = (
+    <pre className={classes.code}>
+      {
+        `
+//Copy and paste these scripts 
+//into the bottom of your <body> tag,
+//but before you use the monitoring services
+const monitoring = new Monitoring("${app.id}");
+      
+monitoring.use();
+`
+      }
+    </pre>
+  );
 
   const { push } = useHistory();
 

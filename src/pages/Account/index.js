@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Grid, TextField, Typography, Button,
 } from '@material-ui/core';
@@ -41,6 +42,8 @@ const Account = () => {
     password: '',
   });
 
+  const { push } = useHistory();
+
   const handleFieldChange = useCallback((e) => {
     const { name, value } = e.target;
 
@@ -80,9 +83,10 @@ const Account = () => {
         })
           .then((u) => {
             sessionStorage.setItem('user', JSON.stringify(u));
-          });
+          })
+          .then(() => push('/'));
       });
-  }, [fields]);
+  }, [fields, push]);
 
   useEffect(() => {
     const data = JSON.parse(sessionStorage.getItem('user'));

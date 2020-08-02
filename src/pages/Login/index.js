@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import {
-  Grid, TextField, Button, Typography,
+  Grid, TextField, Button, Typography, Modal,
 } from '@material-ui/core';
 
 import classnames from 'classnames/bind';
@@ -18,6 +18,7 @@ const cx = classnames.bind(styles);
 const Login = () => {
   // eslint-disable-next-line
   const { login, setLogin } = useContext(LoginCtx);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [fields, setFields] = useState({
     email: undefined,
     password: undefined,
@@ -33,6 +34,14 @@ const Login = () => {
       [name]: value,
     }));
   }, [setFields]);
+
+  const handleModalOpen = useCallback(() => {
+    setIsModalOpen(true);
+  }, [setIsModalOpen]);
+
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, [setIsModalOpen]);
 
   const handleLoginSubmit = useCallback((e) => {
     e.preventDefault();
@@ -56,12 +65,12 @@ const Login = () => {
           return push('/');
         }
 
-        throw new Error('User is not found');
+        return handleModalOpen();
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [fields, push, setLogin]);
+  }, [fields, push, setLogin, handleModalOpen]);
 
   const formValidation = useCallback(() => !isEmail(fields.email), [fields]);
 
@@ -93,7 +102,6 @@ const Login = () => {
           <Button disabled={formValidation()} type="Submit" variant="contained" className={cx('submit')} color="primary">
             Login
           </Button>
-          {/* TODO: give styles to this span */}
           <Typography>
             <span>
               Not a member?
@@ -102,6 +110,18 @@ const Login = () => {
             </span>
           </Typography>
         </form>
+
+        <Modal
+          open={isModalOpen}
+          onClose={handleModalClose}
+          className={cx('modal')}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          <div className={cx('modal-body')}>
+            <h2 id="simple-modal-title">User is not found</h2>
+          </div>
+        </Modal>
       </Grid>
       <Grid item xs={false} sm={2} md={3} lg={4} />
     </Grid>
