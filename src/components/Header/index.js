@@ -97,6 +97,11 @@ export default function Header() {
     push('/dashboard');
   }, [push]);
 
+  const handleOpenAccount = useCallback(() => {
+    setAnchorEl(null);
+    push('/account');
+  }, [push]);
+
   const list = (anchor) => (
     <div
       className={cx(classes.list, {
@@ -159,7 +164,7 @@ export default function Header() {
               onClose={handleClose}
             >
               <MenuItem onClick={handleOpenAnalytics}>My Analytics</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
+              <MenuItem onClick={handleOpenAccount}>My account</MenuItem>
             </Menu>
           </div>
         ) : null}

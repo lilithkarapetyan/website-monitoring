@@ -18,3 +18,11 @@ export {
 export {
   default as sendUserLogininfo,
 } from './auth/loginUser';
+
+export {
+  default as getUserInfo,
+} from './auth/getUserInfo';
+
+export {
+  default as updateUserInfo,
+} from './auth/updateUserInfo';

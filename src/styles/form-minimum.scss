@@ -10,7 +10,7 @@
 
 .form {
     min-height: 300px;
-    padding: 10px;
+    padding: 10px 0;
     @include flex-column-center-both();
     justify-content: space-evenly;
 }

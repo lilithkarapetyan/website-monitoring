@@ -6,7 +6,7 @@ import {
 
 import classnames from 'classnames/bind';
 import { sendUserLogininfo } from '../../fetch';
-import { isEmail, passwordValidation } from '../../helpers';
+import { isEmail, emailValidation } from '../../helpers';
 
 import LoginCtx from '../../contexts/LoginContext';
 
@@ -63,6 +63,8 @@ const Login = () => {
       });
   }, [fields, push, setLogin]);
 
+  const formValidation = useCallback(() => !isEmail(fields.email), [fields]);
+
   return (
     <Grid container className={cx('container')}>
       <Grid item xs={false} sm={2} md={3} lg={4} />
@@ -73,8 +75,8 @@ const Login = () => {
             className={cx('input')}
             label="Email"
             name="email"
-            error={!isEmail(fields.email)}
-            helperText={!isEmail(fields.email) && 'Email is not vaild'}
+            error={!emailValidation(fields.email)}
+            helperText={!emailValidation(fields.email) && 'Email is not vaild'}
             value={fields.email}
             variant="outlined"
             onChange={(e) => handleFieldChange(e)}
@@ -84,13 +86,11 @@ const Login = () => {
             label="Password"
             type="password"
             name="password"
-            error={passwordValidation(fields.password)}
-            helperText={passwordValidation(fields.password) && 'Password is not vaild'}
             value={fields.password}
             variant="outlined"
             onChange={(e) => handleFieldChange(e)}
           />
-          <Button type="Submit" variant="contained" className={cx('submit')} color="primary">
+          <Button disabled={formValidation()} type="Submit" variant="contained" className={cx('submit')} color="primary">
             Login
           </Button>
           {/* TODO: give styles to this span */}
