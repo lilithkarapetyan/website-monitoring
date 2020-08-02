@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -17,9 +18,27 @@ const useStyles = makeStyles({
   },
 });
 
+const codePart = (
+  <pre>
+    {
+`
+const monitoring = new Monitoring('1233');
+      
+monitoring.use();
+`
+}
+  </pre>
+);
+
 export default function Home() {
   const [app] = useState(JSON.parse(sessionStorage.getItem('user')).app);
   const classes = useStyles();
+
+  const { push } = useHistory();
+
+  const handleOpenAnalyticsClick = useCallback(() => {
+    push('/dashboard');
+  }, [push]);
 
   return (
     <Container maxWidth="sm">
@@ -39,10 +58,13 @@ export default function Home() {
             <Typography variant="body2" color="textSecondary" component="p">
               {app.id}
             </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {codePart}
+            </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary">
+          <Button onClick={handleOpenAnalyticsClick} size="small" color="primary">
             Open Current Analytics
           </Button>
         </CardActions>
