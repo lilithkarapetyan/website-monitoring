@@ -233,7 +233,7 @@ const Dashboard = () => {
             <Typography><b>Suggestions</b></Typography>
             <Card>
               {Array.from(suggestions).map((suggestion) => (
-                <Accordion>
+                <Accordion key={suggestion.id}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
