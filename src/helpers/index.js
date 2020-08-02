@@ -3,3 +3,4 @@ export { default as chartConfig } from './chartConfig';
 export { default as arraify } from './arraify';
 export { default as isEmail } from './isEmail';
 export { default as passwordValidation } from './passwordValidation';
+export { default as textFieldValidation } from './textFieldValidation';

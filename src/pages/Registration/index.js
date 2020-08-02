@@ -10,7 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames/bind';
 import { v4 as uuidv4 } from 'uuid';
 
-import { isEmail, passwordValidation } from '../../helpers';
+import { isEmail, passwordValidation, textFieldValidation } from '../../helpers';
 
 import { sendUserRegInfo } from '../../fetch';
 
@@ -83,8 +83,8 @@ const Registration = () => {
             label="Name"
             variant="outlined"
             name="name"
-            error={typeof fields.name === 'string'}
-            helperText={typeof fields.name === 'string' && 'Name should be full'}
+            error={textFieldValidation(fields.name)}
+            helperText={textFieldValidation(fields.name) && 'Name should be full'}
             value={fields.name}
             onChange={handleFieldChange}
           />
@@ -94,8 +94,8 @@ const Registration = () => {
             label="Surname"
             variant="outlined"
             name="surname"
-            error={typeof fields.surname === 'string'}
-            helperText={typeof fields.surname === 'string' && 'Surname should be full'}
+            error={textFieldValidation(fields.surname)}
+            helperText={textFieldValidation(fields.surname) && 'Surname should be full'}
             value={fields.surname}
             onChange={handleFieldChange}
           />
