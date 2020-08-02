@@ -14,7 +14,7 @@ const Footer = () => (
       <span className={cx('text')}>
         Made with
         <FavoriteBorderIcon className={cx('icons')} />
-        from &quot;Web Growth Team&quot;
+        by &quot;Web Growth Team&quot;
       </span>
     </Typography>
   </footer>

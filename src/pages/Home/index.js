@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
+import imagePlaceholder from '../../assets/app-placeholder.png';
+
 const useStyles = makeStyles({
   root: {
     marginTop: 100,
@@ -16,6 +18,7 @@ const useStyles = makeStyles({
 });
 
 export default function Home() {
+  const [app] = useState(JSON.parse(sessionStorage.getItem('user')).app);
   const classes = useStyles();
 
   return (
@@ -26,15 +29,15 @@ export default function Home() {
             component="img"
             alt="Contemplative Reptile"
             height="140"
-            image="https://c.static-nike.com/a/images/w_1920,c_limit/bzl2wmsfh7kgdkufrrjq/image.jpg"
+            image={imagePlaceholder}
             title="Contemplative Reptile"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Your Website
+              {app.name}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, atque!
+              {app.id}
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -64,14 +64,6 @@ const Account = () => {
 
           return false;
         });
-        // if (user[0]) {
-        //     sessionStorage.setItem('user', JSON.stringify(user[0]));
-        //     sessionStorage.setItem('isLogged', true);
-        //     setLogin(true);
-        //     return push('/');
-        // }
-
-        // throw new Error('User is not found');
 
         return user;
       })
@@ -98,6 +90,7 @@ const Account = () => {
     setFields({
       name: data.name,
       surname: data.surname,
+      app: data.app,
       appName: data.appName,
       email: data.email,
       password: Buffer.from(data.password, 'base64').toString('ascii'),
@@ -161,7 +154,7 @@ const Account = () => {
           />
           <TextField
             id="outlined-basic"
-            label="email"
+            label="Email"
             variant="outlined"
             name="email"
             error={!emailValidation(fields.email)}
@@ -171,7 +164,7 @@ const Account = () => {
           />
           <TextField
             id="outlined-basic"
-            label="password"
+            label="Password"
             variant="outlined"
             name="password"
             error={passwordValidation(fields.password)}

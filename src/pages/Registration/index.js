@@ -102,7 +102,6 @@ const Registration = () => {
           onSubmit={(e) => handleRegistrationSubmit(e)}
         >
           <TextField
-            required
             label="Name"
             variant="outlined"
             name="name"
@@ -112,7 +111,6 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            required
             label="Surname"
             variant="outlined"
             name="surname"
@@ -122,7 +120,6 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            required
             label="App Name"
             variant="outlined"
             name="appName"
@@ -132,7 +129,7 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            label="email"
+            label="Email"
             variant="outlined"
             name="email"
             error={!emailValidation(fields.email)}
@@ -141,7 +138,7 @@ const Registration = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            label="password"
+            label="Password"
             variant="outlined"
             name="password"
             error={passwordValidation(fields.password)}
