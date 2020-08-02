@@ -42,14 +42,30 @@ const useData = () => {
           total: 0,
           inCache: 0,
         },
+        links: {
+          total: 0,
+          inCache: 0,
+        },
       };
-      const imageFormatSuggestion = {
-        problem: 'Change the format of the images to .webp for better performance',
-        details: 'Detected another format in: \n',
-        count: 0,
+      const suggest = {
+        imageFormat: {
+          problem: 'Change the format of the images to .webp for better performance',
+          details: ['Detected another format in: \n'],
+          count: 0,
+        },
+        scriptMin: {
+          problem: 'Minify JS files for better performance',
+          details: ['Not Minified files: \n'],
+          count: 0,
+        },
+        cssMin: {
+          problem: 'Minify CSS files for better performance',
+          details: ['Not Minified files: \n'],
+          count: 0,
+        },
       };
+
       for (const item of res) {
-        console.log(item);
         if (item.initiatorType === 'xmlhttprequest') {
           if (!reqs[item.name]) {
             reqs[item.name] = {
@@ -67,8 +83,8 @@ const useData = () => {
           cached.imgs.inCache += item.isCached;
 
           if (item.needToChangeImgFormat) {
-            imageFormatSuggestion.details += `${item.name} \n\n`;
-            imageFormatSuggestion.count += 1;
+            suggest.imageFormat.details.push(`${item.name} \n\n`);
+            suggest.imageFormat.count += 1;
           }
 
           if (!item.isCached) {
@@ -84,10 +100,35 @@ const useData = () => {
               imgs[item.name].size += item.transferSize;
             }
           }
+        } else if (item.initiatorType === 'script') {
+          cached.scripts.total += 1;
+          cached.scripts.inCache += item.isCached;
+
+          if (!item.isMinified) {
+            suggest.scriptMin.details.push(`${item.name} \n\n`);
+            suggest.scriptMin.count += 1;
+          }
+        } else if (item.initiatorType === 'link' || item.initiatorType === 'css') {
+          cached.links.total += 1;
+          cached.links.inCache += item.isCached;
+
+          if (!item.isMinified) {
+            suggest.cssMin.details.push(`${item.name} \n\n`);
+            suggest.cssMin.count += 1;
+          }
         }
       }
-      if (imageFormatSuggestion.count) {
-        newSuggestions.push(imageFormatSuggestion);
+      if (suggest.imageFormat.count) {
+        suggest.imageFormat.details = [...new Set(suggest.imageFormat.details)].join('');
+        newSuggestions.push(suggest.imageFormat);
+      }
+      if (suggest.scriptMin.count) {
+        suggest.scriptMin.details = [...new Set(suggest.scriptMin.details)].join('');
+        newSuggestions.push(suggest.scriptMin);
+      }
+      if (suggest.cssMin.count) {
+        suggest.cssMin.details = [...new Set(suggest.cssMin.details)].join('');
+        newSuggestions.push(suggest.cssMin);
       }
       newWarnings.push({
         problem: 'Do not use eval() or document.write()',
@@ -113,16 +154,48 @@ const useData = () => {
       const avgDomContentLoad = dom.reduce((total, next) => (
         total + next.domContentLoaded), 0) / dom.length || -1;
 
+      const avgDomInteractive = dom.reduce((total, next) => (
+        total + next.domInteractive), 0) / dom.length || -1;
+
+      const avgDomComplete = dom.reduce((total, next) => (
+        total + next.domComplete), 0) / dom.length || -1;
+
       if (avgDomContentLoad >= 0) {
         newInfo.push({
           key: 'Dom Content Loading Time',
           value: `${avgDomContentLoad}ms`,
         });
       }
-      newInfo.push({
-        key: 'Percentage of the images cached',
-        value: `${(cached.imgs.inCache / cached.imgs.total) * 100}%`,
-      });
+      if (avgDomInteractive >= 0) {
+        newInfo.push({
+          key: 'Dom Content was interactive after',
+          value: `${avgDomInteractive}ms`,
+        });
+      }
+      if (avgDomComplete >= 0) {
+        newInfo.push({
+          key: 'Dom Content was ready after',
+          value: `${avgDomComplete}ms`,
+        });
+      }
+      if (cached.imgs.total) {
+        newInfo.push({
+          key: 'Percentage of the images cached',
+          value: `${(cached.imgs.inCache / cached.imgs.total) * 100}%`,
+        });
+      }
+      if (cached.scripts.total) {
+        newInfo.push({
+          key: 'Percentage of the JS files cached',
+          value: `${(cached.scripts.inCache / cached.scripts.total) * 100}%`,
+        });
+      }
+      if (cached.links.total) {
+        newInfo.push({
+          key: 'Percentage of the CSS files cached',
+          value: `${(cached.links.inCache / cached.links.total) * 100}%`,
+        });
+      }
 
       setImages(imgData);
       setRequests(reqData);

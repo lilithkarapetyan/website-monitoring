@@ -1,13 +1,16 @@
 /* eslint-disable guard-for-in */
 const arraify = (arr) => {
-  const newArr = [];
+  let newArr = [];
+  console.log('arr[i]', arr);
   // eslint-disable-next-line no-restricted-syntax
   for (const i in arr) {
-    newArr.push({
-      ...arr[i],
-      id: i,
-    });
+    if (Array.isArray(arr[i])) {
+      newArr = newArr.concat(arr[i]);
+    } else {
+      newArr.push(arr[i]);
+    }
   }
+  console.log('newArr', newArr);
   return newArr;
 };
 
