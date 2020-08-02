@@ -16,10 +16,13 @@ import chartConfig from '../../helpers/chartConfig';
 const useStyles = makeStyles({
   table: {
     minWidth: '360px',
-    width: '50%',
+    width: '100%',
     float: 'left',
+    display: 'block',
+    margin: 'auto',
     padding: '20px',
     boxSizing: 'border-box',
+    maxWidth: 'unset!important',
   },
   chart: {
     minWidth: '360px',
@@ -49,6 +52,10 @@ const useStyles = makeStyles({
   },
   title: {
     padding: '20px',
+  },
+  details: {
+    whiteSpace: 'pre-wrap',
+    wordWrap: 'break-word',
   },
 });
 
@@ -203,7 +210,7 @@ const Dashboard = () => {
                     <Typography className={classes.heading}>{warning.problem}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <pre>
+                    <pre className={classes.details}>
                       {warning.details}
                     </pre>
                   </AccordionDetails>
@@ -228,7 +235,7 @@ const Dashboard = () => {
                     <Typography className={classes.heading}>{suggestion.problem}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <pre>
+                    <pre className={classes.details}>
                       {suggestion.details}
                     </pre>
                   </AccordionDetails>

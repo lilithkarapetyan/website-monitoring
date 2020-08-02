@@ -12,7 +12,7 @@ axiosInstance.interceptors.request.use((request) => {
   }
   request.params = {
     ...request.params,
-    orderBy: '"companyId"',
+    orderBy: '"appId"',
     equalTo: `"${key}"`,
   };
 
