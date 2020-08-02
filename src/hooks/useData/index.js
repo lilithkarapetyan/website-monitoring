@@ -10,6 +10,8 @@ const useData = () => {
   const [info, setInfo] = useState([]);
   const [requests, setRequests] = useState([]);
   const [images, setImages] = useState([]);
+  const [scripts, setScripts] = useState([]);
+  const [warningsStat, setWarningsStat] = useState([]);
 
   const getAnalytics = useCallback(async () => {
     const data = await fetchAnalytics();
@@ -32,6 +34,7 @@ const useData = () => {
 
       const reqs = {};
       const imgs = {};
+      const scriptsObj = {};
       const cached = {
         imgs: {
           total: 0,
@@ -103,6 +106,17 @@ const useData = () => {
           cached.scripts.total += 1;
           cached.scripts.inCache += item.isCached;
 
+          if (!scriptsObj[item.name]) {
+            scriptsObj[item.name] = {
+              count: 1,
+              duration: item.duration,
+              size: item.transferSize,
+            };
+          } else {
+            scriptsObj[item.name].count += 1;
+            scriptsObj[item.name].duration += item.duration;
+            scriptsObj[item.name].size += item.transferSize;
+          }
           if (!item.isMinified) {
             suggest.scriptMin.details.push(`${item.name} \n\n`);
             suggest.scriptMin.count += 1;
@@ -117,6 +131,7 @@ const useData = () => {
           }
         }
       }
+
       if (suggest.imageFormat.count) {
         suggest.imageFormat.details = [...new Set(suggest.imageFormat.details)].join('');
         newSuggestions.push(suggest.imageFormat);
@@ -138,8 +153,27 @@ const useData = () => {
         warn.push(w[0]);
       }
       newWarnings.push(...warn);
+
+      const infoArr = arraify({ ...infoObj });
+      for (const item of infoArr) {
+        item.date = Math.floor(item.date / (60 * 60 * 1000)) * (60 * 60 * 1000);
+      }
+      const warningsCount = groupBy(arraify(infoArr), 'date');
+      const warningsCountArr = [];
+      for (const key in warningsCount) {
+        warningsCountArr.push({
+          date: key * 1,
+          count: warningsCount[key].length,
+        });
+      }
+      warningsCountArr.sort((a, b) => a.date - b.date);
+      for (const item of warningsCountArr) {
+        item.date = new Date(item.date).toLocaleString();
+      }
+
       const reqData = [];
       const imgData = [];
+      const scriptData = [];
       for (const r in reqs) {
         reqData.push({
           url: r,
@@ -154,7 +188,14 @@ const useData = () => {
           size: imgs[i].size / imgs[i].count,
         });
       }
-      console.log('reqData', reqData);
+      for (const i in scriptsObj) {
+        scriptData.push({
+          url: i,
+          duration: scriptsObj[i].duration / scriptsObj[i].count,
+          size: scriptsObj[i].size / scriptsObj[i].count,
+        });
+      }
+
       const avgDomContentLoad = dom.reduce((total, next) => (
         total + next.domContentLoaded), 0) / dom.length || -1;
 
@@ -202,10 +243,12 @@ const useData = () => {
       }
 
       setImages(imgData);
+      setScripts(scriptData);
       setRequests(reqData);
       setInfo(newInfo);
       setWarnings(newWarnings);
       setSuggestions(newSuggestions);
+      setWarningsStat(warningsCountArr);
     });
   }, [getAnalytics, getInfo]);
 
@@ -215,6 +258,8 @@ const useData = () => {
     info,
     requests,
     images,
+    warningsStat,
+    scripts,
   };
 };
 

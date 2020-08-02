@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import { Bar, Line, HorizontalBar } from 'react-chartjs-2';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Table, TableBody, TableCell, TableContainer, TableRow, Paper,
@@ -66,14 +66,23 @@ const Dashboard = () => {
     info,
     requests,
     images,
+    warningsStat,
+    scripts,
   } = useData();
 
   const imgs = Array.from(images).map((img) => img.url);
   const imgSizes = Array.from(images).map((req) => req.size);
   const urls = Array.from(requests).map((req) => req.url);
   const durations = Array.from(requests).map((req) => req.duration);
-  const reqTimingData = chartConfig(urls, durations, 'Requests\' Duration');
-  const imgSizeData = chartConfig(imgs, imgSizes, 'Images\' size');
+  const dates = Array.from(warningsStat).map((warn) => warn.date);
+  const counts = Array.from(warningsStat).map((warn) => warn.count);
+  const script = Array.from(scripts).map((s) => s.url);
+  const scriptSizes = Array.from(scripts).map((s) => s.size);
+
+  const reqTimingData = chartConfig(urls, durations, 'Requests Duration');
+  const imgSizeData = chartConfig(imgs, imgSizes, 'Image files sizes');
+  const scriptSizeData = chartConfig(script, scriptSizes, 'Script files sizes');
+  const warningsStatistics = chartConfig(dates, counts, 'Number of warnings per hour');
 
   console.log('Suggestions: ', suggestions);
   console.log('Warnings: ', warnings);
@@ -110,7 +119,7 @@ const Dashboard = () => {
         <Container className={classes.chart}>
           <Card>
             <Line
-              data={reqTimingData}
+              data={warningsStatistics}
               width={100}
               height={50}
               options={{
@@ -131,7 +140,7 @@ const Dashboard = () => {
 
         <Container className={classes.chart}>
           <Card>
-            <Bar
+            <HorizontalBar
               data={imgSizeData}
               width={100}
               height={50}
@@ -139,7 +148,7 @@ const Dashboard = () => {
                 maintainAspectRatio: true,
                 responsive: true,
                 scales: {
-                  xAxes: [{
+                  yAxes: [{
                     ticks: {
                       autoSkip: true,
                       fontSize: 0,
@@ -153,15 +162,15 @@ const Dashboard = () => {
 
         <Container className={classes.chart}>
           <Card>
-            <Line
-              data={imgSizeData}
+            <HorizontalBar
+              data={scriptSizeData}
               width={100}
               height={50}
               options={{
                 maintainAspectRatio: true,
                 responsive: true,
                 scales: {
-                  xAxes: [{
+                  yAxes: [{
                     ticks: {
                       autoSkip: true,
                       fontSize: 0,
