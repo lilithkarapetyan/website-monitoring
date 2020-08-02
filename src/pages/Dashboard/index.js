@@ -201,16 +201,23 @@ const Dashboard = () => {
             <Typography><b>Warnings</b></Typography>
             <Card>
               {Array.from(warnings).map((warning) => (
-                <Accordion>
+
+                <Accordion key={warning.id}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                   >
-                    <Typography className={classes.heading}>{warning.problem}</Typography>
+                    <Typography className={classes.heading}>{warning.message}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <pre className={classes.details}>
+                      <em>
+                        Warning creation date:
+                        {warning.date}
+                      </em>
+                      <br />
+                      <br />
                       {warning.details}
                     </pre>
                   </AccordionDetails>
@@ -226,7 +233,7 @@ const Dashboard = () => {
             <Typography><b>Suggestions</b></Typography>
             <Card>
               {Array.from(suggestions).map((suggestion) => (
-                <Accordion>
+                <Accordion key={suggestion.id}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"

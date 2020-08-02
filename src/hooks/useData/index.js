@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 import { useState, useEffect, useCallback } from 'react';
-import { getDomInfo, getResourcesInfo } from '../../fetch';
-import { arraify } from '../../helpers';
+import { getAnalytics as fetchAnalytics, getInfo as fetchInfo } from '../../fetch';
+import { arraify, groupBy, sortObjValues } from '../../helpers';
 
 const useData = () => {
   const [suggestions, setSuggestions] = useState([]);
@@ -11,18 +11,18 @@ const useData = () => {
   const [requests, setRequests] = useState([]);
   const [images, setImages] = useState([]);
 
-  const getDomData = useCallback(async () => {
-    const data = await getDomInfo();
+  const getAnalytics = useCallback(async () => {
+    const data = await fetchAnalytics();
     return data;
   }, []);
 
-  const getResourcesData = useCallback(async () => {
-    const data = await getResourcesInfo();
+  const getInfo = useCallback(async () => {
+    const data = await fetchInfo();
     return data;
   }, []);
 
   useEffect(() => {
-    getDomData().then((dataObj) => {
+    Promise.all([getAnalytics(), getInfo()]).then(([dataObj, infoObj]) => {
       const newInfo = [];
       const newWarnings = [];
       const newSuggestions = [];
@@ -32,7 +32,6 @@ const useData = () => {
 
       const reqs = {};
       const imgs = {};
-
       const cached = {
         imgs: {
           total: 0,
@@ -130,10 +129,15 @@ const useData = () => {
         suggest.cssMin.details = [...new Set(suggest.cssMin.details)].join('');
         newSuggestions.push(suggest.cssMin);
       }
-      newWarnings.push({
-        problem: 'Do not use eval() or document.write()',
-        details: 'The functions can potentially be harmful',
-      });
+
+      const grouped = sortObjValues(groupBy(arraify(infoObj), 'type'), 'date', -1);
+      const warn = [];
+
+      for (const w of Object.values(grouped)) {
+        w[0].date = new Date(w[0].date).toString();
+        warn.push(w[0]);
+      }
+      newWarnings.push(...warn);
       const reqData = [];
       const imgData = [];
       for (const r in reqs) {
@@ -203,7 +207,7 @@ const useData = () => {
       setWarnings(newWarnings);
       setSuggestions(newSuggestions);
     });
-  }, [getDomData, getResourcesData]);
+  }, [getAnalytics, getInfo]);
 
   return {
     suggestions,

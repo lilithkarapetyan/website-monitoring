@@ -6,3 +6,5 @@ export { default as isPassword } from './isPassword';
 export { default as emailValidation } from './emailValidation';
 export { default as passwordValidation } from './passwordValidation';
 export { default as textFieldValidation } from './textFieldValidation';
+export { default as groupBy } from './groupBy';
+export { default as sortObjValues } from './sortObjValues';

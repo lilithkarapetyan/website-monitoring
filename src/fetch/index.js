@@ -1,15 +1,15 @@
 // eslint-disable-next-line import/prefer-default-export
 export {
   default as analytics,
-} from './analytics';
+} from './analytics/axios';
 
 export {
-  default as getDomInfo,
-} from './analytics/domInfo';
+  default as getAnalytics,
+} from './analytics/analytics';
 
 export {
-  default as getResourcesInfo,
-} from './analytics/resourcesInfo';
+  default as getInfo,
+} from './analytics/info';
 
 export {
   default as sendUserRegInfo,

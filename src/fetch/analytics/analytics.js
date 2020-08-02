@@ -1,6 +1,6 @@
-import axios from '../axiosMain';
+import axios from './axios';
 
-const getDomInfo = async () => {
+const getAnalytics = async () => {
   try {
     const data = await axios.get('analytics.json');
     return data.data;
@@ -10,4 +10,4 @@ const getDomInfo = async () => {
   }
 };
 
-export default getDomInfo;
+export default getAnalytics;

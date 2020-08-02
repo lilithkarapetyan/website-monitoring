@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   container: {
-    marginTop: '50px',
+    margin: '50px',
   },
   title: {
     color: '#fff',
