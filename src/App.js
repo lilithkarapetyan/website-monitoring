@@ -37,6 +37,11 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const isLogged = sessionStorage.getItem('isLogged') === 'true';
+    setLogin(isLogged);
+  }, [login]);
+
   return (
     <Router>
       <ThemeProvider theme={theme}>
