@@ -1,17 +1,24 @@
 @import '../../styles/flex-stuff.scss';
-$footer-height: 300px;
+$footer-height: 100px;
 
 .footer {
+    width: 100%;
     height: $footer-height;
-    background: rgb(72,88,195);
-    background: linear-gradient(rgb(48, 69, 207) 0%, rgb(14, 38, 122) 100%);
+    background-color: #3f51b5;
     @include flex-column-center-both();
 }
 
 .text {
-    @include flex-center-align();
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  color: #fff;
+
+  & svg {
+    margin: 10px;
+  }
+  & svg:hover {
+    fill: red;
+  }
 }
 
-.icons {
-    margin: 0 4px;
-}

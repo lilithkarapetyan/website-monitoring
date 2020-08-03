@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: 'https://web-monitoring-cba12.firebaseio.com/',
-  timeout: 10000,
+  // // timeout: 10000,
 });
 
 axiosInstance.interceptors.request.use((request) => {
@@ -12,7 +12,7 @@ axiosInstance.interceptors.request.use((request) => {
   }
   request.params = {
     ...request.params,
-    orderBy: '"companyId"',
+    orderBy: '"appId"',
     equalTo: `"${key}"`,
   };
 

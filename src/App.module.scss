@@ -1,8 +1,6 @@
 @import './components/Footer/Footer.module.scss';
 
-// INFO: I've done this for footer
-// For more info check this:
-//https://css-tricks.com/couple-takes-sticky-footer/
+
 .content {
-    min-height: calc(100vh - #{$footer-height} - 20px);
+    min-height: calc(100vh - #{$footer-height});
 }

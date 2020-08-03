@@ -1,19 +1,16 @@
 @import './colors.scss';
 @import './flex-stuff.scss';
-
+ 
 .formWrapper {
-    border-radius: 10px;
-    border: 1px solid $form-border-color;
+    margin-top: 40px!important;
     text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px #ddddff;
 }
 
 .form {
-    padding: 10px;
+    min-height: 300px;
+    padding: 10px 0;
     @include flex-column-center-both();
-}
-
-// UGLY: I used !important
-.input {
-    width: 60%;
-    margin: 10px 0 !important; 
+    justify-content: space-evenly;
 }
