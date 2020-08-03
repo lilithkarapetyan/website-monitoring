@@ -6,13 +6,15 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames/bind';
 
-import {
-  isEmail, isPassword, textFieldValidation, passwordValidation, emailValidation,
-} from '../../helpers';
 import { getUserInfo, updateUserInfo } from '../../fetch';
 
 // styles
 import styles from './Account.module.scss';
+
+// helpers
+import {
+  isEmail, isPassword, textFieldValidation, passwordValidation, emailValidation,
+} from '../../helpers';
 
 const cx = classnames.bind(styles);
 
@@ -44,6 +46,7 @@ const Account = () => {
 
   const { push } = useHistory();
 
+  // One dynamic handler for all fields
   const handleFieldChange = useCallback((e) => {
     const { name, value } = e.target;
 
@@ -54,9 +57,11 @@ const Account = () => {
   }, [setFields]);
 
   const handleAccountChangeSubmit = useCallback((e) => {
-    e.preventDefault();
+    e.preventDefault(); // Getting rid of "form is not connected" warning
     const encryptedPassword = Buffer.from(fields.password).toString('base64');
 
+    // First we need to get our user
+    // And then change user's info
     getUserInfo()
       .then((users) => {
         const user = Object.entries(users).filter((u) => {
@@ -101,6 +106,8 @@ const Account = () => {
     });
   }, []);
 
+  // If at least one field is not valid,
+  // Then the submit button will be disabled
   const formValidation = useCallback(() => {
     const {
       name, surname, appName, email, password,
@@ -119,7 +126,7 @@ const Account = () => {
     <Grid container>
       <Grid item xs={false} sm={2} />
       <Grid className={cx(classes.container)} item xs={12} sm={8}>
-        <Typography><h2>Account</h2></Typography>
+        <Typography variant="h3">Account</Typography>
         <form
           className={cx('form', classes.root)}
           noValidate

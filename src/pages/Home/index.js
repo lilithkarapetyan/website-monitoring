@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
+// assets
 import imagePlaceholder from '../../assets/app-placeholder.png';
 
 const useStyles = makeStyles({
@@ -26,6 +27,12 @@ export default function Home() {
   const [app] = useState(JSON.parse(sessionStorage.getItem('user')).app);
   const classes = useStyles();
 
+  const { push } = useHistory();
+
+  const handleOpenAnalyticsClick = useCallback(() => {
+    push('/dashboard');
+  }, [push]);
+
   const codePart = (
     <pre className={classes.code}>
       {
@@ -40,12 +47,6 @@ monitoring.use();
       }
     </pre>
   );
-
-  const { push } = useHistory();
-
-  const handleOpenAnalyticsClick = useCallback(() => {
-    push('/dashboard');
-  }, [push]);
 
   return (
     <Container maxWidth="sm">
