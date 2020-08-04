@@ -68,7 +68,7 @@ const useData = () => {
       };
 
       for (const item of res) {
-        if (item.initiatorType === 'xmlhttprequest') {
+        if (item.initiatorType === 'xmlhttprequest' || item.initiatorType === 'fetch') {
           if (!reqs[item.name]) {
             reqs[item.name] = {
               count: 1,
@@ -124,8 +124,7 @@ const useData = () => {
         } else if (item.initiatorType === 'link' || item.initiatorType === 'css') {
           cached.links.total += 1;
           cached.links.inCache += item.isCached;
-
-          if (!item.isMinified) {
+          if (item.isMinified === false) {
             suggest.cssMin.details.push(`${item.name} \n\n`);
             suggest.cssMin.count += 1;
           }
