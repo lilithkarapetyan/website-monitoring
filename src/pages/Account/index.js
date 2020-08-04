@@ -13,7 +13,7 @@ import styles from './Account.module.scss';
 
 // helpers
 import {
-  isEmail, isPassword, textFieldValidation, passwordValidation, emailValidation,
+  isEmail, isPassword, isText,
 } from '../../helpers';
 
 const cx = classnames.bind(styles);
@@ -138,8 +138,8 @@ const Account = () => {
             label="Name"
             variant="outlined"
             name="name"
-            error={textFieldValidation(fields.name)}
-            helperText={textFieldValidation(fields.name) && 'Name should be full'}
+            error={!isText(fields.name)}
+            helperText={!isText(fields.name) && 'Name should be full'}
             value={fields.name}
             onChange={handleFieldChange}
           />
@@ -148,8 +148,8 @@ const Account = () => {
             label="Surname"
             variant="outlined"
             name="surname"
-            error={textFieldValidation(fields.surname)}
-            helperText={textFieldValidation(fields.surname) && 'Surname should be full'}
+            error={!isText(fields.surname)}
+            helperText={!isText(fields.surname) && 'Surname should be full'}
             value={fields.surname}
             onChange={handleFieldChange}
           />
@@ -158,8 +158,8 @@ const Account = () => {
             label="App name"
             variant="outlined"
             name="appName"
-            error={textFieldValidation(fields.appName)}
-            helperText={textFieldValidation(fields.appname) && 'App Name should be full'}
+            error={!isText(fields.appName)}
+            helperText={!isText(fields.appName) && 'App Name should be full'}
             value={fields.appName}
             onChange={handleFieldChange}
           />
@@ -168,8 +168,8 @@ const Account = () => {
             label="Email"
             variant="outlined"
             name="email"
-            error={!emailValidation(fields.email)}
-            helperText={!emailValidation(fields.email) && 'Email is not vaild'}
+            error={!isEmail(fields.email)}
+            helperText={!isEmail(fields.email) && 'Email is not vaild'}
             value={fields.email}
             onChange={handleFieldChange}
           />
@@ -178,8 +178,8 @@ const Account = () => {
             label="Password"
             variant="outlined"
             name="password"
-            error={passwordValidation(fields.password)}
-            helperText={passwordValidation(fields.password) && 'Password is not vaild'}
+            error={!isPassword(fields.password)}
+            helperText={!isPassword(fields.password) && 'Password is too short'}
             value={fields.password}
             onChange={handleFieldChange}
             type="password"

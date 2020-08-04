@@ -80,18 +80,18 @@ monitoring.use();
             image={imagePlaceholder}
             title="Contemplative Reptile"
           />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              {app.name}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {app.id}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {codePart}
-            </Typography>
-          </CardContent>
         </CardActionArea>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            {app.name}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {app.id}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {codePart}
+          </Typography>
+        </CardContent>
         <CardActions>
           <Button onClick={handleOpenAnalyticsClick} size="small" color="primary">
             Open Current Analytics
