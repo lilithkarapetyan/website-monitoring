@@ -47,9 +47,6 @@ const useStyles = makeStyles({
   warnings: {
     backgroundColor: 'rgba(255,193,7,0.6)',
   },
-  container: {
-    padding: '0px 20px',
-  },
   title: {
     padding: '20px',
   },
@@ -91,7 +88,7 @@ const Dashboard = () => {
   console.log('imgs:', images);
   /* TODO: Move charts to different files */
   return (
-    <div className={classes.container}>
+    <div>
       <Typography><h2 className={classes.title}>App dashboard</h2></Typography>
       <div>
         <Container className={classes.chart}>
