@@ -19,9 +19,7 @@ import styles from './Registration.module.scss';
 import {
   isEmail,
   isPassword,
-  emailValidation,
-  passwordValidation,
-  textFieldValidation,
+  isText,
 } from '../../helpers';
 
 const cx = classnames.bind(styles);
@@ -42,13 +40,27 @@ const useStyles = makeStyles((theme) => ({
 
 const Registration = () => {
   const classes = useStyles();
-  // UGLY: This is a temporary solution for input validation
   const [fields, setFields] = useState({
-    name: undefined,
-    surname: undefined,
-    appName: undefined,
-    email: undefined,
-    password: undefined,
+    name: {
+      value: '',
+      firstClick: false,
+    },
+    surname: {
+      value: '',
+      firstClick: false,
+    },
+    appName: {
+      value: '',
+      firstClick: false,
+    },
+    email: {
+      value: '',
+      firstClick: false,
+    },
+    password: {
+      value: '',
+      firstClick: false,
+    },
   });
 
   const { push } = useHistory();
@@ -59,7 +71,10 @@ const Registration = () => {
 
     setFields((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: {
+        value,
+        firstClick: true,
+      },
     }));
   }, [setFields]);
 
@@ -109,45 +124,45 @@ const Registration = () => {
             label="Name"
             variant="outlined"
             name="name"
-            error={textFieldValidation(fields.name)}
-            helperText={textFieldValidation(fields.name) && 'Name should be full'}
-            value={fields.name}
+            error={fields.name.firstClick && !isText(fields.name.value)}
+            helperText={fields.name.firstClick && !isText(fields.name.value) && 'Name should be full'}
+            value={fields.name.value}
             onChange={handleFieldChange}
           />
           <TextField
             label="Surname"
             variant="outlined"
             name="surname"
-            error={textFieldValidation(fields.surname)}
-            helperText={textFieldValidation(fields.surname) && 'Surname should be full'}
-            value={fields.surname}
+            error={fields.surname.firstClick && !isText(fields.surname.value)}
+            helperText={fields.surname.firstClick && !isText(fields.surname.value) && 'Surname should be full'}
+            value={fields.surname.value}
             onChange={handleFieldChange}
           />
           <TextField
             label="App Name"
             variant="outlined"
             name="appName"
-            error={textFieldValidation(fields.appName)}
-            helperText={textFieldValidation(fields.appName) && 'App Name should be full'}
-            value={fields.appName}
+            error={fields.appName.firstClick && !isText(fields.appName.value)}
+            helperText={fields.appName.firstClick && !isText(fields.appName.value) && 'App Name should be full'}
+            value={fields.appName.value}
             onChange={handleFieldChange}
           />
           <TextField
             label="Email"
             variant="outlined"
             name="email"
-            error={!emailValidation(fields.email)}
-            helperText={!emailValidation(fields.email) && 'Email is not vaild'}
-            value={fields.email}
+            error={fields.email.firstClick && !isEmail(fields.email.value)}
+            helperText={fields.email.firstClick && (!isEmail(fields.email.value) && 'Email is not vaild')}
+            value={fields.email.value}
             onChange={handleFieldChange}
           />
           <TextField
             label="Password"
             variant="outlined"
             name="password"
-            error={passwordValidation(fields.password)}
-            helperText={passwordValidation(fields.password) && 'Password is not vaild'}
-            value={fields.password}
+            error={fields.password.firstClick && !isPassword(fields.password.value)}
+            helperText={fields.password.firstClick && (!isPassword(fields.password.value) && 'Password is too short')}
+            value={fields.password.value}
             onChange={handleFieldChange}
             type="password"
           />
