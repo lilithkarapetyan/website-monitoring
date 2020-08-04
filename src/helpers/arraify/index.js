@@ -1,7 +1,6 @@
 /* eslint-disable guard-for-in */
 const arraify = (arr) => {
   const newArr = [];
-  console.log('arr[i]', arr);
   // eslint-disable-next-line no-restricted-syntax
   for (const i in arr) {
     newArr.push({
@@ -9,7 +8,6 @@ const arraify = (arr) => {
       id: i,
     });
   }
-  console.log('newArr', newArr);
   return newArr;
 };
 

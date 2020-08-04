@@ -5,7 +5,7 @@ const getAnalytics = async () => {
     const data = await axios.get('analytics.json');
     return data.data;
   } catch (e) {
-    console.warn('oooo');
+    console.error(e);
     return false;
   }
 };
