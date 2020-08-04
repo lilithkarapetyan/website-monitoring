@@ -208,37 +208,37 @@ const useData = () => {
       if (avgDomContentLoad >= 0) {
         newInfo.push({
           key: 'Dom Content Loading Time',
-          value: `${avgDomContentLoad}ms`,
+          value: `${avgDomContentLoad.toFixed(2)}ms`,
         });
       }
       if (avgDomInteractive >= 0) {
         newInfo.push({
           key: 'Dom Content was interactive after',
-          value: `${avgDomInteractive}ms`,
+          value: `${avgDomInteractive.toFixed(2)}ms`,
         });
       }
       if (avgDomComplete >= 0) {
         newInfo.push({
           key: 'Dom Content was ready after',
-          value: `${avgDomComplete}ms`,
+          value: `${avgDomComplete.toFixed(2)}ms`,
         });
       }
       if (cached.imgs.total) {
         newInfo.push({
           key: 'Percentage of the images cached',
-          value: `${(cached.imgs.inCache / cached.imgs.total) * 100}%`,
+          value: `${((cached.imgs.inCache / cached.imgs.total) * 100).toFixed(2)}%`,
         });
       }
       if (cached.scripts.total) {
         newInfo.push({
           key: 'Percentage of the JS files cached',
-          value: `${(cached.scripts.inCache / cached.scripts.total) * 100}%`,
+          value: `${((cached.scripts.inCache / cached.scripts.total) * 100).toFixed(2)}%`,
         });
       }
       if (cached.links.total) {
         newInfo.push({
           key: 'Percentage of the CSS files cached',
-          value: `${(cached.links.inCache / cached.links.total) * 100}%`,
+          value: `${((cached.links.inCache / cached.links.total) * 100).toFixed(2)}%`,
         });
       }
 

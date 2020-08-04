@@ -9,10 +9,12 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
+// assets
 import imagePlaceholder from '../../assets/app-placeholder.png';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     marginTop: 100,
   },
@@ -20,11 +22,23 @@ const useStyles = makeStyles({
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
   },
-});
+  button: {
+    margin: theme.spacing(1),
+  },
+  container: {
+    padding: '20px',
+  },
+}));
 
 export default function Home() {
   const [app] = useState(JSON.parse(sessionStorage.getItem('user')).app);
   const classes = useStyles();
+
+  const { push } = useHistory();
+
+  const handleOpenAnalyticsClick = useCallback(() => {
+    push('/dashboard');
+  }, [push]);
 
   const codePart = (
     <pre className={classes.code}>
@@ -41,14 +55,22 @@ monitoring.use();
     </pre>
   );
 
-  const { push } = useHistory();
-
-  const handleOpenAnalyticsClick = useCallback(() => {
-    push('/dashboard');
-  }, [push]);
-
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" className={classes.container}>
+      <Button
+        variant="contained"
+        color="default"
+        className={classes.button}
+        startIcon={<GetAppIcon />}
+      >
+        <a
+          style={{ textDecoration: 'none' }}
+          href='https://github.com/ArmanSarkisov/monitoring-lib/blob/master/index.js'
+          download='monitoring.js'
+        >
+          Download the library
+        </a>
+      </Button>
       <Card className={classes.root}>
         <CardActionArea>
           <CardMedia

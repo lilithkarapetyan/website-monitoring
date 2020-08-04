@@ -10,6 +10,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import classnames from 'classnames/bind';
 import { v4 as uuidv4 } from 'uuid';
 
+import { sendUserRegInfo } from '../../fetch';
+
+// styles
+import styles from './Registration.module.scss';
+
+// helpers
 import {
   isEmail,
   isPassword,
@@ -18,18 +24,12 @@ import {
   textFieldValidation,
 } from '../../helpers';
 
-import { sendUserRegInfo } from '../../fetch';
-
-// styles
-import styles from './Registration.module.scss';
-
 const cx = classnames.bind(styles);
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(1),
-      // width: '25ch',
     },
   },
   container: {
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Registration = () => {
   const classes = useStyles();
+  // UGLY: This is a temporary solution for input validation
   const [fields, setFields] = useState({
     name: undefined,
     surname: undefined,
@@ -52,6 +53,7 @@ const Registration = () => {
 
   const { push } = useHistory();
 
+  // One dynamic handler for all fields
   const handleFieldChange = useCallback((e) => {
     const { name, value } = e.target;
 
@@ -62,20 +64,22 @@ const Registration = () => {
   }, [setFields]);
 
   const handleRegistrationSubmit = useCallback((e) => {
-    e.preventDefault();
+    e.preventDefault(); // Getting rid of "form is not connected" warning
 
     sendUserRegInfo({
       ...fields,
       password: Buffer.from(fields.password).toString('base64'),
       app: {
         name: fields.appName,
-        id: uuidv4(),
+        id: uuidv4(), // creating an ID for user's app
       },
     });
 
     push('/login');
   }, [fields, push]);
 
+  // If at least one field is not valid,
+  // Then the submit button will be disabled
   const formValidation = useCallback(() => {
     const {
       name, surname, appName, email, password,
@@ -94,7 +98,7 @@ const Registration = () => {
     <Grid container>
       <Grid item xs={false} sm={2} md={3} lg={4} />
       <Grid item xs={12} sm={8} md={6} lg={4} className={cx('formWrapper', classes.container)}>
-        <Typography><h2>Registration</h2></Typography>
+        <Typography variant="h4">Registration</Typography>
         <form
           className={cx('form', classes.root)}
           noValidate
