@@ -2,11 +2,14 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: 'https://web-monitoring-cba12.firebaseio.com/',
-  // // timeout: 10000,
 });
 
 axiosInstance.interceptors.request.use((request) => {
-  const key = '1223334444';
+  let key = '';
+  const user = sessionStorage.getItem('user');
+  if (user) {
+    key = JSON.parse(user).app.id;
+  }
   if (!request.params) {
     request.params = {};
   }
