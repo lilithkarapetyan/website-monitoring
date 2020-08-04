@@ -40,13 +40,27 @@ export default function Home() {
     push('/dashboard');
   }, [push]);
 
-  const codePart = (
+  const codePartLink = (
     <pre className={classes.code}>
       {
         `
 //Copy and paste these scripts 
 //into the bottom of your <body> tag,
 //but before you use the monitoring services
+const monitoring = new Monitoring("${app.id}");
+      
+monitoring.use();
+`
+      }
+    </pre>
+  );
+
+  const codePartPackage = (
+    <pre className={classes.code}>
+      {
+        `
+import Monitoring from 'monitoring-lib';
+
 const monitoring = new Monitoring("${app.id}");
       
 monitoring.use();
@@ -65,7 +79,7 @@ monitoring.use();
       >
         <a
           style={{ textDecoration: 'none' }}
-          href='https://github.com/ArmanSarkisov/monitoring-lib/blob/master/index.js'
+          href='https://github.com/ArmanSarkisov/monitoring-lib/blob/es5-lib/index.js'
           download='monitoring.js'
         >
           Download the library
@@ -85,11 +99,17 @@ monitoring.use();
           <Typography gutterBottom variant="h5" component="h2">
             {app.name}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="body2" color="textSecondary" component="div">
             {app.id}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {codePart}
+          <Typography variant="body2" color="textSecondary" component="div">
+            {codePartLink}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="div">
+            Or install it as a node package
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="div">
+            {codePartPackage}
           </Typography>
         </CardContent>
         <CardActions>

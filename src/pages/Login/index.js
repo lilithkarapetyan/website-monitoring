@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import {
-  Grid, TextField, Button, Typography, Modal,
+  Grid, TextField, Button, Typography,
 } from '@material-ui/core';
 
 // fetch
@@ -17,11 +17,11 @@ import styles from './Login.module.scss';
 const cx = classnames.bind(styles);
 
 const Login = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [fields, setFields] = useState({
     email: '',
     password: '',
   });
+  const [isUserFound, setIsUserFound] = useState(true);
 
   const { setLogin } = useContext(LoginCtx);
 
@@ -36,14 +36,6 @@ const Login = () => {
       [name]: value,
     }));
   }, [setFields]);
-
-  const handleModalOpen = useCallback(() => {
-    setIsModalOpen(true);
-  }, [setIsModalOpen]);
-
-  const handleModalClose = useCallback(() => {
-    setIsModalOpen(false);
-  }, [setIsModalOpen]);
 
   const handleLoginSubmit = useCallback((e) => {
     e.preventDefault(); // Getting rid of "form is not connected" warning
@@ -69,12 +61,12 @@ const Login = () => {
           return push('/');
         }
 
-        return handleModalOpen();
+        return setIsUserFound(false);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [fields, push, setLogin, handleModalOpen]);
+  }, [fields, push, setLogin]);
 
   return (
     <Grid container className={cx('container')}>
@@ -102,6 +94,9 @@ const Login = () => {
           <Button type="Submit" variant="contained" className={cx('submit')} color="primary">
             Login
           </Button>
+          <Typography className={cx('error')}>
+            {!isUserFound && 'User is not found'}
+          </Typography>
           <Typography>
             <span>
               Not a member?
@@ -110,18 +105,6 @@ const Login = () => {
             </span>
           </Typography>
         </form>
-
-        <Modal
-          open={isModalOpen}
-          onClose={handleModalClose}
-          className={cx('modal')}
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-        >
-          <div className={cx('modal-body')}>
-            <h2 id="simple-modal-title">User is not found</h2>
-          </div>
-        </Modal>
       </Grid>
       <Grid item xs={false} sm={2} md={3} lg={4} />
     </Grid>

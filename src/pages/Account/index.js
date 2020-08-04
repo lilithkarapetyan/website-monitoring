@@ -134,7 +134,6 @@ const Account = () => {
           onSubmit={(e) => handleAccountChangeSubmit(e)}
         >
           <TextField
-            id="outlined-basic"
             label="Name"
             variant="outlined"
             name="name"
@@ -144,7 +143,6 @@ const Account = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            id="outlined-basic"
             label="Surname"
             variant="outlined"
             name="surname"
@@ -154,7 +152,6 @@ const Account = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            id="outlined-basic"
             label="App name"
             variant="outlined"
             name="appName"
@@ -164,7 +161,6 @@ const Account = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            id="outlined-basic"
             label="Email"
             variant="outlined"
             name="email"
@@ -174,7 +170,6 @@ const Account = () => {
             onChange={handleFieldChange}
           />
           <TextField
-            id="outlined-basic"
             label="Password"
             variant="outlined"
             name="password"
